@@ -33,9 +33,12 @@ HVSupply::HVSupply(std::string ipaddress, int sysType, int link, std::string use
 
 HVSupply::~HVSupply() {
 	// TODO Auto-generated destructor stub
-
-	//This function is not yet there in HVSuppyEmulator
-	//fRet_init = CAENHV_DeinitSystem(fName);
+	fRet_init = CAENHV_DeinitSystem(fSysHandle);
+	if(fRet_init != CAENHV_OK){
+		std::cout << "Problem in Logging out of : " << fIPAddress << std::endl;
+	}else{
+		std::cout << "Successfully Logged out of : " << fIPAddress << std::endl;
+	}
 }
 
 void HVSupply::Login(){
