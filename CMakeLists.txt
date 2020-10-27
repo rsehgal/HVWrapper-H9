@@ -63,6 +63,9 @@ message(STATUS "SOURCES : ${sources}")
 add_library(HVWrapper SHARED ${headers} ${sources})
 target_link_libraries(HVWrapper ${CAENHV_LIBRARIES})
 
+add_library(HVSupply SHARED ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp)
+target_link_libraries(HVSupply ${CAENHV_LIBRARIES})
+
 add_executable(MainWrap  test/MainWrapp.c ${headers} ${sources})
 target_link_libraries(MainWrap HVWrapper -lncurses)
 
