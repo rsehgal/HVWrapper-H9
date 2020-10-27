@@ -73,6 +73,9 @@ target_link_libraries(MainWrap HVWrapper -lncurses)
 add_executable(Read  test/Read.cpp)
 target_link_libraries(Read ${CAENHV_LIBRARIES})
 
+add_executable(ReadHVSupply  test/ReadHVSupply.cpp)
+target_link_libraries(ReadHVSupply HVSupply)
+
 add_executable(PowerSupplyConfTester  test/PowerSupplyConfTester.cpp src/PowerSupplyConfReader.cpp)
 #target_link_libraries(Read ${CAENHV_LIBRARIES})
 

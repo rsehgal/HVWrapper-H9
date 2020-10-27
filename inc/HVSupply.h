@@ -41,7 +41,7 @@ class HVSupply {
 
 public:
 	//HVSupply(std::string name, std::string ipaddress, int link, std::string username="admin", std::string passwd="admin");
-	HVSupply(int sysType, std::string ipaddress, int link, std::string username="admin", std::string passwd="admin");
+	HVSupply(std::string ipaddress, int sysType=2, int link=0, std::string username="admin", std::string passwd="admin" );
 	virtual ~HVSupply();
 	void Login();
 	bool IsLoginOk(){return (fRet_init == CAENHV_OK);}

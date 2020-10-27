@@ -10,12 +10,12 @@
 
 namespace caen {
 
-HVSupply::HVSupply(int sysType, std::string ipaddress, int link, std::string username, std::string passwd ) {
+HVSupply::HVSupply(std::string ipaddress, int sysType, int link, std::string username, std::string passwd ) {
 	// TODO Auto-generated constructor stub
 	//fName = name;
 	fSysType = sysType;
 	fSysHandle  = -1;
-	fLink = 0;// LINKTYPE_TCPIP;
+	fLink = link;// LINKTYPE_TCPIP;
 	fIPAddress = ipaddress;
 	fUsername = username;
 	fPasswd = passwd;
