@@ -45,6 +45,8 @@ int main(){
 	bool allLogin = true;
 
 
+
+
 	for(unsigned int i = 0 ; i < sysIpVec.size() ; i++){
 		ret = CAENHV_InitSystem((CAENHV_SYSTEM_TYPE_t)sysType, link, sysIpVec[i], userName, passwd, &sysHandleVec[i]);
 		std::cout << "Ret value of login : " << ret << std::endl;
