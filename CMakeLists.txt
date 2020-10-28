@@ -53,6 +53,9 @@ include_directories(${CAENHV_INCLUDE_DIR})
 message(STATUS "CAEN INCLUDE DIR : ${CAENHV_INCLUDE_DIR}")
 message(STATUS "CAEN LIBRARIES: ${CAENHV_LIBRARIES}")
 
+find_package(ROOT REQUIRED)
+include_directories(${ROOT_INCLUDE_DIR})
+
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 file(GLOB headers ${headers} ${CMAKE_CURRENT_SOURCE_DIR}/inc/*.h )
@@ -63,8 +66,21 @@ message(STATUS "SOURCES : ${sources}")
 add_library(HVWrapper SHARED ${headers} ${sources})
 target_link_libraries(HVWrapper ${CAENHV_LIBRARIES})
 
-add_library(HVSupply SHARED ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp)
-target_link_libraries(HVSupply ${CAENHV_LIBRARIES} )
+add_library(HVSupply SHARED  
+${CMAKE_CURRENT_SOURCE_DIR}/inc/HVData.h  
+${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h 
+${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp 
+${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp 
+)
+
+#target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
+
+file(GLOB_RECURSE SOURCES2 . $ENV{ROOTSYS}/lib/*.so)
+target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
+
+#message(STATUS "ROOT LIB : ${SOURCES2}")
+
+
 
 add_executable(MainWrap  test/MainWrapp.c ${headers} ${sources})
 target_link_libraries(MainWrap HVWrapper -lncurses)
@@ -79,5 +95,5 @@ target_link_libraries(ReadHVSupply HVSupply)
 add_executable(PowerSupplyConfTester  test/PowerSupplyConfTester.cpp)
 target_link_libraries(PowerSupplyConfTester HVSupply)
 
-add_executable(ReadPSUsingConfFile  test/ReadPSUsingConfFile.cpp)
+add_executable(ReadPSUsingConfFile test/ReadPSUsingConfFile.cpp)
 target_link_libraries(ReadPSUsingConfFile HVSupply)

@@ -39,7 +39,7 @@ void PowerSupplyConfReader::Print(){
 
 void PowerSupplyConfReader::ReadFile(std::string filename){
 	std::ifstream infile(filename);
-		infile >> fIpAddress >> fNumOfSlots;
+		infile >> fOutputFileName >> fIpAddress >> fNumOfSlots;
 		for(unsigned int i = 0 ; i < fNumOfSlots ; i++){
 			unsigned short slotNo;
 			unsigned short numOfChannels;
@@ -63,7 +63,9 @@ void PowerSupplyConfReader::ReadFile(std::string filename){
 ReadPowerSupplies::ReadPowerSupplies(std::vector<std::string> filenamesVector){
 		for(unsigned short int i = 0 ; i < filenamesVector.size() ; i++){
 			fPowerSupplyConfVector.push_back(new PowerSupplyConfReader(filenamesVector[i]));
-			fPowerSupplyVector.push_back(new HVSupply(fPowerSupplyConfVector[i]->fIpAddress,
+			fPowerSupplyVector.push_back(new HVSupply(
+													  fPowerSupplyConfVector[i]->fOutputFileName,
+													  fPowerSupplyConfVector[i]->fIpAddress,
 													  fPowerSupplyConfVector[i]->fSlotVector,
 													  fPowerSupplyConfVector[i]->fVectOfChannelVector));
 		}

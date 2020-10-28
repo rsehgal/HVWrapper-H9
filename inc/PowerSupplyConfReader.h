@@ -15,6 +15,7 @@ using namespace caen;
 
 class PowerSupplyConfReader {
 public:
+	std::string fOutputFileName;
 	std::string fIpAddress;
 	unsigned short fNumOfSlots;
 	std::vector<unsigned short> fSlotVector;
