@@ -11,11 +11,13 @@
 #include <string>
 #include <iostream>
 #include "HVSupply.h"
+#include "HVData.h"
+
 using namespace caen;
 
 class PowerSupplyConfReader {
 public:
-	std::string fOutputFileName;
+	//std::string fOutputFileName;
 	std::string fIpAddress;
 	unsigned short fNumOfSlots;
 	std::vector<unsigned short> fSlotVector;
@@ -31,6 +33,10 @@ public:
 
 
 class ReadPowerSupplies{
+public:
+	std::vector<PowerSupply> fPsVector;
+	unsigned long int fTStamp;
+
 public:
 	std::vector<PowerSupplyConfReader*> fPowerSupplyConfVector;
 	std::vector<HVSupply*> fPowerSupplyVector;

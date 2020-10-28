@@ -9,6 +9,7 @@
 #include <fstream>
 #include <iostream>
 #include <HVSupply.h>
+#include <ctime>
 using namespace caen;
 
 PowerSupplyConfReader::PowerSupplyConfReader() {
@@ -39,7 +40,7 @@ void PowerSupplyConfReader::Print(){
 
 void PowerSupplyConfReader::ReadFile(std::string filename){
 	std::ifstream infile(filename);
-		infile >> fOutputFileName >> fIpAddress >> fNumOfSlots;
+		infile >> fIpAddress >> fNumOfSlots;
 		for(unsigned int i = 0 ; i < fNumOfSlots ; i++){
 			unsigned short slotNo;
 			unsigned short numOfChannels;
@@ -64,7 +65,7 @@ ReadPowerSupplies::ReadPowerSupplies(std::vector<std::string> filenamesVector){
 		for(unsigned short int i = 0 ; i < filenamesVector.size() ; i++){
 			fPowerSupplyConfVector.push_back(new PowerSupplyConfReader(filenamesVector[i]));
 			fPowerSupplyVector.push_back(new HVSupply(
-													  fPowerSupplyConfVector[i]->fOutputFileName,
+													  //fPowerSupplyConfVector[i]->fOutputFileName,
 													  fPowerSupplyConfVector[i]->fIpAddress,
 													  fPowerSupplyConfVector[i]->fSlotVector,
 													  fPowerSupplyConfVector[i]->fVectOfChannelVector));
@@ -80,7 +81,8 @@ ReadPowerSupplies::~ReadPowerSupplies(){
 }
 
 void ReadPowerSupplies::ReadVoltageAndCurrentOfAllPowerSupplies(){
+	fTStamp = std::time(0);
 	for(unsigned short int i = 0 ; i < fPowerSupplyVector.size() ; i++){
-		fPowerSupplyVector[i]->ReadVoltageAndCurrentOfAllChannels();
+		fPsVector.push_back(fPowerSupplyVector[i]->ReadVoltageAndCurrentOfAllChannels());
 	}
 }

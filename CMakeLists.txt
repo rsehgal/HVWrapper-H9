@@ -68,6 +68,7 @@ target_link_libraries(HVWrapper ${CAENHV_LIBRARIES})
 
 add_library(HVSupply SHARED  
 ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVData.h  
+${CMAKE_CURRENT_SOURCE_DIR}/inc/Loader.h  
 ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp 
@@ -97,3 +98,6 @@ target_link_libraries(PowerSupplyConfTester HVSupply)
 
 add_executable(ReadPSUsingConfFile test/ReadPSUsingConfFile.cpp)
 target_link_libraries(ReadPSUsingConfFile HVSupply)
+
+add_executable(TestWritingVecOfStruct test/TestWritingVecOfStruct.cpp)
+target_link_libraries(TestWritingVecOfStruct HVSupply)

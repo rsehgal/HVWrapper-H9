@@ -113,7 +113,7 @@ void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 }
 #endif
 
-void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
+PowerSupply HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
 
 	//fOutputFileName = "simulatedData.root";
@@ -156,6 +156,7 @@ void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 			}
 			ps.push_back(sl);
 		}
+		return ps;
 
 
 			/*std::ifstream f(fOutputFileName);

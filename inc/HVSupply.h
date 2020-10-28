@@ -12,7 +12,7 @@
 //#include <TH1F.h>
 #include "CAENHVWrapper.h"
 #include <vector>
-
+#include "HVData.h"
 
 class TTree;
 
@@ -99,7 +99,7 @@ public:
 	void ChannelTest(){}
 	void HVMonFullStabGap(){}
 
-	void ReadVoltageAndCurrentOfAllChannels();
+	PowerSupply ReadVoltageAndCurrentOfAllChannels();
 
 
 };
