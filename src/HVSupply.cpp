@@ -59,7 +59,7 @@ HVSupply::HVSupply(std::string ipaddress, std::vector<unsigned short> slotVector
 
 void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
-	std::ofstream outfile(fIPAddress+".txt");
+	std::ofstream outfile(fIPAddress+".txt",std::ios::app);
 	unsigned long int timestamp = 0;
 	outfile << timestamp << ",";
 	if(IsLoginOk()){
