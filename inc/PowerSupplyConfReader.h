@@ -9,8 +9,12 @@
 #define CAEN_HVWRAPPER_H9_INC_POWERSUPPLYCONFREADER_H_
 #include <vector>
 #include <string>
+#include <iostream>
+#include "HVSupply.h"
+using namespace caen;
 
 class PowerSupplyConfReader {
+public:
 	std::string fIpAddress;
 	unsigned short fNumOfSlots;
 	std::vector<unsigned short> fSlotVector;
@@ -22,6 +26,19 @@ public:
 	virtual ~PowerSupplyConfReader();
 	void Print();
 	void ReadFile(std::string filename);
+};
+
+
+class ReadPowerSupplies{
+public:
+	std::vector<PowerSupplyConfReader*> fPowerSupplyConfVector;
+	std::vector<HVSupply*> fPowerSupplyVector;
+
+	ReadPowerSupplies(std::vector<std::string> filenamesVector);
+	~ReadPowerSupplies();
+	void ReadVoltageAndCurrentOfAllPowerSupplies();
+
+
 };
 
 #endif /* CAEN_HVWRAPPER_H9_INC_POWERSUPPLYCONFREADER_H_ */

@@ -63,8 +63,8 @@ message(STATUS "SOURCES : ${sources}")
 add_library(HVWrapper SHARED ${headers} ${sources})
 target_link_libraries(HVWrapper ${CAENHV_LIBRARIES})
 
-add_library(HVSupply SHARED ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp)
-target_link_libraries(HVSupply ${CAENHV_LIBRARIES})
+add_library(HVSupply SHARED ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp ${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp)
+target_link_libraries(HVSupply ${CAENHV_LIBRARIES} )
 
 add_executable(MainWrap  test/MainWrapp.c ${headers} ${sources})
 target_link_libraries(MainWrap HVWrapper -lncurses)
@@ -76,8 +76,8 @@ target_link_libraries(Read ${CAENHV_LIBRARIES})
 add_executable(ReadHVSupply  test/ReadHVSupply.cpp)
 target_link_libraries(ReadHVSupply HVSupply)
 
-add_executable(PowerSupplyConfTester  test/PowerSupplyConfTester.cpp src/PowerSupplyConfReader.cpp)
-#target_link_libraries(Read ${CAENHV_LIBRARIES})
+add_executable(PowerSupplyConfTester  test/PowerSupplyConfTester.cpp)
+target_link_libraries(PowerSupplyConfTester HVSupply)
 
-#target_link_libraries(MainWrap ${CAEN_LIBRARIES})
-
+add_executable(ReadPSUsingConfFile  test/ReadPSUsingConfFile.cpp)
+target_link_libraries(ReadPSUsingConfFile HVSupply)

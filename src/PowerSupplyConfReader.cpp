@@ -8,7 +8,8 @@
 #include "PowerSupplyConfReader.h"
 #include <fstream>
 #include <iostream>
-
+#include <HVSupply.h>
+using namespace caen;
 
 PowerSupplyConfReader::PowerSupplyConfReader() {
 	// TODO Auto-generated constructor stub
@@ -17,6 +18,7 @@ PowerSupplyConfReader::PowerSupplyConfReader() {
 
 PowerSupplyConfReader::~PowerSupplyConfReader() {
 	// TODO Auto-generated destructor stub
+	std::cout << "Deleting power supply object from  PowerSupplyConfReader with IP : " << fIpAddress << std::endl;
 }
 
 PowerSupplyConfReader::PowerSupplyConfReader(std::string filename){
@@ -54,4 +56,29 @@ void PowerSupplyConfReader::ReadFile(std::string filename){
 		}
 
 		infile.close();
+}
+
+//============ Read Power Supplied class
+
+ReadPowerSupplies::ReadPowerSupplies(std::vector<std::string> filenamesVector){
+		for(unsigned short int i = 0 ; i < filenamesVector.size() ; i++){
+			fPowerSupplyConfVector.push_back(new PowerSupplyConfReader(filenamesVector[i]));
+			fPowerSupplyVector.push_back(new HVSupply(fPowerSupplyConfVector[i]->fIpAddress,
+													  fPowerSupplyConfVector[i]->fSlotVector,
+													  fPowerSupplyConfVector[i]->fVectOfChannelVector));
+		}
+}
+
+ReadPowerSupplies::~ReadPowerSupplies(){
+		for(unsigned short int i = 0 ; i < fPowerSupplyVector.size() ; i++){
+			std::cout << "Deleting power supply object from ReadPowerSupplies with IP : " << fPowerSupplyConfVector[i]->fIpAddress << std::endl;
+			delete fPowerSupplyVector[i];
+		}
+		fPowerSupplyVector.clear();
+}
+
+void ReadPowerSupplies::ReadVoltageAndCurrentOfAllPowerSupplies(){
+	for(unsigned short int i = 0 ; i < fPowerSupplyVector.size() ; i++){
+		fPowerSupplyVector[i]->ReadVoltageAndCurrentOfAllChannels();
+	}
 }

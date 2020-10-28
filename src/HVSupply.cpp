@@ -7,6 +7,7 @@
 
 #include "HVSupply.h"
 #include <iostream>
+#include <fstream>
 
 namespace caen {
 
@@ -28,7 +29,51 @@ HVSupply::HVSupply(std::string ipaddress, int sysType, int link, std::string use
 	fIMon = 0.;
 	fPower = 0;
 
+	Login();
 
+}
+
+HVSupply::HVSupply(std::string ipaddress, std::vector<unsigned short> slotVector, std::vector<std::vector<unsigned short>> vectOfChannelVector,
+			 int sysType, int link, std::string username, std::string passwd ){
+
+	fSysType = sysType;
+	fSysHandle  = -1;
+	fLink = link;// LINKTYPE_TCPIP;
+	fIPAddress = ipaddress;
+	fUsername = username;
+	fPasswd = passwd;
+
+	param = new float; //malloc(sizeof(float));
+	param2 = new float; //malloc(sizeof(uint));
+	id_channel = new ushort; //malloc(sizeof(ushort));
+
+	fVMon = 0.;
+	fIMon = 0.;
+	fPower = 0;
+
+	fSlotVector = slotVector;
+	fVectOfChannelVector = vectOfChannelVector;
+	Login();
+
+}
+
+void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
+
+	std::ofstream outfile(fIPAddress+".txt");
+	unsigned long int timestamp = 0;
+	outfile << timestamp << ",";
+	if(IsLoginOk()){
+		for(unsigned short int slotIndex = 0 ; slotIndex < fSlotVector.size(); slotIndex++){
+			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector.size() ; channelIndex++){
+				outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
+			}
+		}
+	}
+	else{
+		outfile << "Login Problem for Power Suppy : " << fIPAddress;
+	}
+	outfile << std::endl;
+	outfile.close();
 }
 
 HVSupply::~HVSupply() {

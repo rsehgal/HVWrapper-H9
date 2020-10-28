@@ -10,7 +10,7 @@
 #include <string>
 
 #include "CAENHVWrapper.h"
-
+#include <vector>
 namespace caen {
 
 class HVSupply {
@@ -39,9 +39,14 @@ class HVSupply {
 	int fPower;
 	int fSystemStatus;
 
+	std::vector<unsigned short> fSlotVector;
+	std::vector<std::vector<unsigned short>> fVectOfChannelVector;
+
 public:
 	//HVSupply(std::string name, std::string ipaddress, int link, std::string username="admin", std::string passwd="admin");
 	HVSupply(std::string ipaddress, int sysType=2, int link=0, std::string username="admin", std::string passwd="admin" );
+	HVSupply(std::string ipaddress, std::vector<unsigned short> slotVector, std::vector<std::vector<unsigned short>> vectOfChannelVector,
+			 int sysType=2, int link=0, std::string username="admin", std::string passwd="admin" );
 	virtual ~HVSupply();
 	void Login();
 	bool IsLoginOk(){return (fRet_init == CAENHV_OK);}
@@ -77,6 +82,8 @@ public:
 	void HVMonFullGap(){}
 	void ChannelTest(){}
 	void HVMonFullStabGap(){}
+
+	void ReadVoltageAndCurrentOfAllChannels();
 
 
 };
