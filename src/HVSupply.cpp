@@ -57,7 +57,7 @@ void HVSupply::Login(){
 float HVSupply::GetVoltage(int slot, ushort channel){
     param[0]=0;
     //float par[1]={0};
-	fRet = CAENHV_GetChParam(fSysHandle, slot, "Vmon", 1, &channel, param);
+	fRet = CAENHV_GetChParam(fSysHandle, slot, "VMon", 1, &channel, param);
 	if (fRet==CAENHV_OK) {
 	   fVMon = param[0];
 	}
@@ -67,7 +67,7 @@ float HVSupply::GetVoltage(int slot, ushort channel){
 
 float HVSupply::GetCurrent(int slot, ushort channel){
 	param[0]=0;
-	fRet = CAENHV_GetChParam(fSysHandle, slot, "Imon", 1, &channel, param);
+	fRet = CAENHV_GetChParam(fSysHandle, slot, "IMon", 1, &channel, param);
 	if (fRet==CAENHV_OK) {
 	   fIMon = param[0];
 	}
