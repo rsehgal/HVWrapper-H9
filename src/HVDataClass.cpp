@@ -22,3 +22,5 @@ HVDataClass::HVDataClass(float v0set, float vmon, float i0set, float imon){
                 sI0Set = i0set;
                 sIMon = imon;
 }
+
+ClassImp(HVDataClass)

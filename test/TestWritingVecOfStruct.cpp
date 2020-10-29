@@ -6,16 +6,15 @@
  */
 
 #include "HVDataClass.h"
-//#include "Loader.h"
 #include <fstream>
 #include <TFile.h>
 #include <TTree.h>
 #include <TROOT.h>
 #include <TRint.h>
+#include <ctime>
 
 int main(){
 
-	//gROOT->ProcessLine(".L /home/rsehgal/TrackingMod.restart.08.June/CAEN/HVWrapper-H9/inc/Loader.h");
 
 	Channel ch1(100.,99.,10,9.08);
 	Channel ch2(102.,98.,10,9.01);
@@ -33,10 +32,19 @@ int main(){
 	ps.push_back(s);
 	ps.push_back(s);
 
+	PowerSupply ps2;
+	ps2.push_back(s);
+	ps2.push_back(s);
+	ps2.push_back(s);
+
 	std::string outputFileName = "HVData.root";
+	ULong_t tStamp;
 	TFile *hvdata = new TFile(outputFileName.c_str(),"RECREATE");
 	TTree *hvDataTree = new TTree("HVData","HVData");
 	hvDataTree->Branch("HVTop","PowerSupply", &ps);
+	hvDataTree->Branch("HVBottom","PowerSupply", &ps2);
+	hvDataTree->Branch("TimeStamp", &tStamp, "tStamp/i");
+	tStamp = time(0);
 	hvDataTree->Fill();
 	hvDataTree->Write();
 	hvdata->Close();

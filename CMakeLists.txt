@@ -55,7 +55,7 @@ message(STATUS "CAEN LIBRARIES: ${CAENHV_LIBRARIES}")
 
 find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
-
+#include(${ROOT_USE_FILE})
 
 #root_generate_dictionary(G__HVDataDict ../inc/HVDataClass.h LINKDEF ../inc/HVDataLinkDef.h)
 #add_library(HVDataDict SHARED ../src/HVDataClass.cpp ../inc/HVDataClass.h G__HVDataDict.cxx)
@@ -63,6 +63,12 @@ include_directories(${ROOT_INCLUDE_DIR})
 #target_link_libraries(HVDataDict PUBLIC ${ROOT_LIBRARIES})
 
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
+
+ROOT_GENERATE_DICTIONARY(G__HVDataClass ../inc/HVDataClass.h LINKDEF ../inc/DictLinkDef.h)
+# Creates a shared library with a generated dictionary.
+add_library(HVDataClass SHARED ../src/HVDataClass.cpp G__HVDataClass.cxx)
+target_link_libraries(HVDataClass ${ROOT_LIBRARIES})
+
 file(GLOB headers ${headers} ${CMAKE_CURRENT_SOURCE_DIR}/inc/*.h )
 file(GLOB sources ${sources} ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
 message(STATUS "*************** Trying to create library libHVWrapper **********")
@@ -81,20 +87,20 @@ ${CMAKE_CURRENT_SOURCE_DIR}/src/HVDataClass.cpp
 target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
 
 add_executable(MainWrap  test/MainWrapp.c ${headers} ${sources})
-target_link_libraries(MainWrap HVWrapper -lncurses)
+target_link_libraries(MainWrap HVWrapper -lncurses HVDataClass)
 
 
 add_executable(Read  test/Read.cpp)
-target_link_libraries(Read ${CAENHV_LIBRARIES})
+target_link_libraries(Read ${CAENHV_LIBRARIES} HVDataClass)
 
 add_executable(ReadHVSupply  test/ReadHVSupply.cpp)
-target_link_libraries(ReadHVSupply HVSupply)
+target_link_libraries(ReadHVSupply HVSupply HVDataClass)
 
 add_executable(PowerSupplyConfTester  test/PowerSupplyConfTester.cpp)
-target_link_libraries(PowerSupplyConfTester HVSupply)
+target_link_libraries(PowerSupplyConfTester HVSupply HVDataClass)
 
 add_executable(ReadPSUsingConfFile test/ReadPSUsingConfFile.cpp)
-target_link_libraries(ReadPSUsingConfFile HVSupply)
+target_link_libraries(ReadPSUsingConfFile HVSupply HVDataClass)
 
 add_executable(TestWritingVecOfStruct test/TestWritingVecOfStruct.cpp ) #G__HVDataDict.cxx)
-target_link_libraries(TestWritingVecOfStruct HVSupply ${ROOT_LIBRARIES}) #HVDataDict
+target_link_libraries(TestWritingVecOfStruct HVSupply ${ROOT_LIBRARIES} HVDataClass) #HVDataDict HVDataClass
