@@ -57,6 +57,11 @@ find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 
 
+#root_generate_dictionary(G__HVDataDict ../inc/HVDataClass.h LINKDEF ../inc/HVDataLinkDef.h)
+#add_library(HVDataDict SHARED ../src/HVDataClass.cpp ../inc/HVDataClass.h G__HVDataDict.cxx)
+#target_include_directories(HVDataDict PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")
+#target_link_libraries(HVDataDict PUBLIC ${ROOT_LIBRARIES})
+
 include_directories(${CMAKE_CURRENT_SOURCE_DIR}/inc)
 file(GLOB headers ${headers} ${CMAKE_CURRENT_SOURCE_DIR}/inc/*.h )
 file(GLOB sources ${sources} ${CMAKE_CURRENT_SOURCE_DIR}/src/*.c ${CMAKE_CURRENT_SOURCE_DIR}/src/*.cpp)
@@ -67,21 +72,13 @@ add_library(HVWrapper SHARED ${headers} ${sources})
 target_link_libraries(HVWrapper ${CAENHV_LIBRARIES})
 
 add_library(HVSupply SHARED  
-${CMAKE_CURRENT_SOURCE_DIR}/inc/HVData.h  
-${CMAKE_CURRENT_SOURCE_DIR}/inc/Loader.h  
 ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp 
+${CMAKE_CURRENT_SOURCE_DIR}/src/HVDataClass.cpp 
 )
 
-#target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
-
-file(GLOB_RECURSE SOURCES2 . $ENV{ROOTSYS}/lib/*.so)
 target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
-
-#message(STATUS "ROOT LIB : ${SOURCES2}")
-
-
 
 add_executable(MainWrap  test/MainWrapp.c ${headers} ${sources})
 target_link_libraries(MainWrap HVWrapper -lncurses)
@@ -99,5 +96,5 @@ target_link_libraries(PowerSupplyConfTester HVSupply)
 add_executable(ReadPSUsingConfFile test/ReadPSUsingConfFile.cpp)
 target_link_libraries(ReadPSUsingConfFile HVSupply)
 
-add_executable(TestWritingVecOfStruct test/TestWritingVecOfStruct.cpp)
-target_link_libraries(TestWritingVecOfStruct HVSupply)
+add_executable(TestWritingVecOfStruct test/TestWritingVecOfStruct.cpp ) #G__HVDataDict.cxx)
+target_link_libraries(TestWritingVecOfStruct HVSupply ${ROOT_LIBRARIES}) #HVDataDict

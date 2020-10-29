@@ -11,7 +11,7 @@
 #include <string>
 #include <iostream>
 #include "HVSupply.h"
-#include "HVData.h"
+#include "HVDataClass.h"
 
 using namespace caen;
 

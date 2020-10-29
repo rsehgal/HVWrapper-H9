@@ -8,7 +8,7 @@
 #include "HVSupply.h"
 #include <iostream>
 #include <fstream>
-#include "HVData.h"
+#include "HVDataClass.h"
 //#include <TTree.h>
 //#include <TH1F.h>
 //#include <TFile.h>

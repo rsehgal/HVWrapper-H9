@@ -7,13 +7,15 @@
 
 #include "PowerSupplyConfReader.h"
 #include <TH1F.h>
-#include "Loader.h"
+//#include "Loader.h"
 #include <fstream>
 #include <TFile.h>
 #include <TTree.h>
 #include <TROOT.h>
+#include <TSystem.h>
 int main(){
 	//gROOT->ProcessLine(".L /home/ismran/Work/geant4/ismran/Loader.C+");
+	//gSystem->Load("libHVDataDict");
 	std::cout << "============================================" << std::endl;
 	std::vector<std::string> psfileVector;
 	psfileVector.push_back("PowerSupply1.txt");

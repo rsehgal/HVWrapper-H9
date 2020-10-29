@@ -12,7 +12,7 @@
 //#include <TH1F.h>
 #include "CAENHVWrapper.h"
 #include <vector>
-#include "HVData.h"
+#include "HVDataClass.h"
 
 class TTree;
 
