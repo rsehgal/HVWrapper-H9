@@ -13,6 +13,7 @@
 #include <TTree.h>
 #include <TROOT.h>
 #include <TSystem.h>
+#include <ctime>
 int main(){
 	//gROOT->ProcessLine(".L /home/ismran/Work/geant4/ismran/Loader.C+");
 	//gSystem->Load("libHVDataDict");
@@ -26,6 +27,7 @@ int main(){
 
 	PowerSupply psTop = psV.fPsVector[0];
 	PowerSupply psBottom = psV.fPsVector[1];
+	ULong_t tStamp = time(0);
 
 
 	std::string outputFileName = "HVData.root";
@@ -47,8 +49,10 @@ int main(){
 		 TFile *hvdata = new TFile(outputFileName.c_str(),"CREATE");
 		 //PowerSupply ps;
 		 TTree *hvDataTree = new TTree("HVData","HVData");
+		 hvDataTree->Branch("TimeStamp", &tStamp, "tStamp/i");
 		 hvDataTree->Branch("HVTop","PowerSupply", &psTop);
-		 hvDataTree->Branch("HVTop","PowerSupply", &psBottom);
+		 hvDataTree->Branch("HVBottom","PowerSupply", &psBottom);
+
 		 hvDataTree->Fill();
 		 hvDataTree->Write();
 		 hvdata->Close();
