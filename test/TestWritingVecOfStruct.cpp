@@ -12,7 +12,7 @@
 #include <TROOT.h>
 #include <TRint.h>
 #include <ctime>
-
+#include <iostream>
 int main(){
 
 
@@ -27,26 +27,49 @@ int main(){
 	s.push_back(ch3);
 	s.push_back(ch4);
 
-	PowerSupply ps;
-	ps.push_back(s);
-	ps.push_back(s);
-	ps.push_back(s);
+	PowerSupply *ps=new PowerSupply;
+	ps->push_back(s);
+	ps->push_back(s);
+	ps->push_back(s);
 
-	PowerSupply ps2;
-	ps2.push_back(s);
-	ps2.push_back(s);
-	ps2.push_back(s);
+	PowerSupply *ps2 = new PowerSupply;
+	ps2->push_back(s);
+	ps2->push_back(s);
+	ps2->push_back(s);
 
 	std::string outputFileName = "HVData.root";
-	ULong_t tStamp;
-	TFile *hvdata = new TFile(outputFileName.c_str(),"RECREATE");
-	TTree *hvDataTree = new TTree("HVData","HVData");
-	hvDataTree->Branch("HVTop","PowerSupply", &ps);
-	hvDataTree->Branch("HVBottom","PowerSupply", &ps2);
-	hvDataTree->Branch("TimeStamp", &tStamp, "tStamp/i");
+	ULong64_t tStamp;
+
+	gROOT->Reset();
+   	TFile *hvdata;// = (TFile*)gROOT->GetListOfFiles()->FindObject("HVData.root");
+	std::ifstream f(outputFileName);
+	TTree *HVData;
+   	//if (!hvdata) {
+	if(!(f.good())){
+		f.close();
+		std::cout << "File does not exist, hence creating the new one...." << std::endl;
+      		hvdata = new TFile("HVData.root", "CREATE");
+		HVData = new TTree("HVData","HVData");
+		HVData->Branch("HVTop","PowerSupply", &ps);
+		HVData->Branch("HVBottom","PowerSupply", &ps2);
+		HVData->Branch("TimeStamp", &tStamp, "tStamp/l");
+   	}else{
+		f.close();
+		std::cout << "File exist, hence reopening it in UPDATE mode ...." << std::endl;
+		hvdata = new TFile(outputFileName.c_str(),"UPDATE");
+                HVData = (TTree*)hvdata->Get("HVData");
+		// Set branch addresses.
+		//PowerSupply *hvTop=0;
+		//PowerSupply *hvBottom=0;
+		HVData->SetBranchAddress("HVTop",&ps);
+		HVData->SetBranchAddress("HVBottom",&ps2);
+		HVData->SetBranchAddress("TimeStamp",&tStamp);
+
+	}
+
 	tStamp = time(0);
-	hvDataTree->Fill();
-	hvDataTree->Write();
+	HVData->Fill();
+	HVData->Write();
 	hvdata->Close();
 
 }

@@ -104,3 +104,6 @@ target_link_libraries(ReadPSUsingConfFile HVSupply HVDataClass)
 
 add_executable(TestWritingVecOfStruct test/TestWritingVecOfStruct.cpp ) #G__HVDataDict.cxx)
 target_link_libraries(TestWritingVecOfStruct HVSupply ${ROOT_LIBRARIES} HVDataClass) #HVDataDict HVDataClass
+
+add_executable(TestTreeRead test/TestTreeRead.cpp ) #G__HVDataDict.cxx)
+target_link_libraries(TestTreeRead HVSupply ${ROOT_LIBRARIES} HVDataClass)

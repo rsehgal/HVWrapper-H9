@@ -35,17 +35,28 @@ int main(){
 	std::ifstream f(outputFileName);
 	if(f.good()){
 		 f.close();
+		 std::cout << "File exist, hence opening it in Update mode ...." << std::endl;
 		 //Open the required ROOT file in append mode
 		 TFile *hvdata = new TFile(outputFileName.c_str(),"UPDATE");
-		 TTree *hvDataTree = (TTree*)hvdata->Get("HVData");
+		 TTree *HVData = (TTree*)hvdata->Get("HVData");
+		 //Declaration of leaves types
+		 //vector<vector<HVDataClass> > HVTop;
+		 //vector<vector<HVDataClass> > HVBottom;
+		 UInt_t          tStamp;
 
-		 hvDataTree->Fill();
-		 hvDataTree->Write();
+		 // Set branch addresses.
+		 HVData->SetBranchAddress("HVTop",&psTop);
+		 HVData->SetBranchAddress("HVBottom",&psBottom);
+		 HVData->SetBranchAddress("TimeStamp",&tStamp);
+
+		 HVData->Fill();
+		 HVData->Write();
 		 hvdata->Close();
 		//std::cout << "FILE ExIST>..........." << std::endl;
 	}else{
 		f.close();
 		 //Create a new ROOT file with desired name
+		std::cout << "File does not exist hence creating a new file........." << std::endl;
 		 TFile *hvdata = new TFile(outputFileName.c_str(),"CREATE");
 		 //PowerSupply ps;
 		 TTree *hvDataTree = new TTree("HVData","HVData");

@@ -26,11 +26,14 @@ public:
         HVDataClass();
         HVDataClass(float v0set, float vmon, float i0set, float imon);
         virtual ~HVDataClass();
+	void Print();
         ClassDef(HVDataClass,1)
+
 
 };
 using Channel = HVDataClass;
 using Slot = std::vector<Channel>;
 using PowerSupply = std::vector<Slot>;
 
+extern void Print(PowerSupply *ps);
 #endif /* CAEN_HVWRAPPER_H9_INC_HVDATACLASS_H_ */
