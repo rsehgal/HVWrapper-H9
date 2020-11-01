@@ -25,9 +25,9 @@ int main(){
 	ReadPowerSupplies psV(psfileVector);
 	psV.ReadVoltageAndCurrentOfAllPowerSupplies();
 
-	PowerSupply psTop = psV.fPsVector[0];
-	PowerSupply psBottom = psV.fPsVector[1];
-	ULong_t tStamp = time(0);
+	PowerSupply *psTop = psV.fPsVector[0];
+	PowerSupply *psBottom = psV.fPsVector[1];
+	ULong64_t tStamp = time(0);
 
 
 	std::string outputFileName = "HVData.root";
@@ -42,7 +42,7 @@ int main(){
 		 //Declaration of leaves types
 		 //vector<vector<HVDataClass> > HVTop;
 		 //vector<vector<HVDataClass> > HVBottom;
-		 UInt_t          tStamp;
+		 //UInt_t          tStamp;
 
 		 // Set branch addresses.
 		 HVData->SetBranchAddress("HVTop",&psTop);

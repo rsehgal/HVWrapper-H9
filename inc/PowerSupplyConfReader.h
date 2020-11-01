@@ -34,7 +34,7 @@ public:
 
 class ReadPowerSupplies{
 public:
-	std::vector<PowerSupply> fPsVector;
+	std::vector<PowerSupply*> fPsVector;
 	unsigned long int fTStamp;
 
 public:

@@ -99,7 +99,7 @@ public:
 	void ChannelTest(){}
 	void HVMonFullStabGap(){}
 
-	PowerSupply ReadVoltageAndCurrentOfAllChannels();
+	PowerSupply* ReadVoltageAndCurrentOfAllChannels();
 
 
 };
