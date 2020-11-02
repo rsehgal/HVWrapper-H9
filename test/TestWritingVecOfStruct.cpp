@@ -16,10 +16,10 @@
 int main(){
 
 
-	Channel ch1(100.,99.,10,9.08);
-	Channel ch2(102.,98.,10,9.01);
-	Channel ch3(103.,97.,10,9.07);
-	Channel ch4(104.,96.,9.9,9.03);
+	Channel ch1(1,0,100.,99.,10,9.08);
+	Channel ch2(1,1,102.,98.,10,9.01);
+	Channel ch3(1,2,103.,97.,10,9.07);
+	Channel ch4(1,3,104.,96.,9.9,9.03);
 
 	Slot s;
 	s.push_back(ch1);
@@ -38,7 +38,8 @@ int main(){
 	ps2->push_back(s);
 
 	std::string outputFileName = "HVData.root";
-	ULong64_t tStamp;
+	//ULong64_t tStamp;
+	UInt_t tStamp;
 
 	gROOT->Reset();
    	TFile *hvdata;// = (TFile*)gROOT->GetListOfFiles()->FindObject("HVData.root");
@@ -52,7 +53,7 @@ int main(){
 		HVData = new TTree("HVData","HVData");
 		HVData->Branch("HVTop","PowerSupply", &ps);
 		HVData->Branch("HVBottom","PowerSupply", &ps2);
-		HVData->Branch("TimeStamp", &tStamp, "tStamp/l");
+		HVData->Branch("TimeStamp", &tStamp, "tStamp/i");
    	}else{
 		f.close();
 		std::cout << "File exist, hence reopening it in UPDATE mode ...." << std::endl;

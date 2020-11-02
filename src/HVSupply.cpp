@@ -116,30 +116,6 @@ void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
 
-	//fOutputFileName = "simulatedData.root";
-	/*std::ifstream f(fOutputFileName);
-	if(f.good()){
-		f.close();
-		 Open the required ROOT file in append mode
-		 TFile *hvdata = new TFile(fOutputFileName.c_str(),"UPDATE");
-		 fHVDataTree = (TTree*)hvdata.Get("HVDataTree");
-
-		 fHVDataTree->Fill();
-		 fHVDataTree->Write();
-		 hvdata.Close();
-
-		//std::cout << "FILE ExIST>..........." << std::endl;
-	}else{
-		f.close();
-		 Create a new ROOT file with desired name
-		 TFile *hvdata = new TFile(fOutputFileName.c_str(),"CREATE");
-		 PowerSupply ps;
-		 fHVDataTree = new TTree("HVDataTree","HVDataTree");
-		 fHVDataTree->Branch("HVTop","PowerSupply", &ps);
-		//std::cout << "FILE does NOT ExiST......... " << std::endl;
-	}*/
-
-
 	std::ofstream outfile(fIPAddress+".txt",std::ios::app);
 	unsigned long int timestamp = 0;
 	outfile << timestamp << ",";
@@ -148,7 +124,7 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 		for(unsigned short int slotIndex = 0 ; slotIndex < fSlotVector.size(); slotIndex++){
 			Slot sl;
 			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector.size() ; channelIndex++){
-				Channel ch(GetV0Set(slotIndex,channelIndex),GetVMon(slotIndex,channelIndex),
+				Channel ch(slotIndex,channelIndex,GetV0Set(slotIndex,channelIndex),GetVMon(slotIndex,channelIndex),
 						   GetI0Set(slotIndex,channelIndex),GetIMon(slotIndex,channelIndex));
 
 				//outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
@@ -157,33 +133,6 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 			ps.push_back(sl);
 		}
 		return &ps;
-
-
-			/*std::ifstream f(fOutputFileName);
-			if(f.good()){
-				f.close();
-				 Open the required ROOT file in append mode
-				 TFile *hvdata = new TFile(fOutputFileName.c_str(),"UPDATE");
-				 fHVDataTree = (TTree*)hvdata->Get(fIPAddress.c_str());
-
-				 fHVDataTree->Fill();
-				 fHVDataTree->Write();
-				 hvdata->Close();
-
-				//std::cout << "FILE ExIST>..........." << std::endl;
-			}else{
-				f.close();
-				 Create a new ROOT file with desired name
-				 TFile *hvdata = new TFile(fOutputFileName.c_str(),"CREATE");
-				 //PowerSupply ps;
-				 fHVDataTree = new TTree(fIPAddress.c_str(),fIPAddress.c_str());
-				 fHVDataTree->Branch("HVTop","PowerSupply", &ps);
-				 fHVDataTree->Fill();
-				 fHVDataTree->Write();
-				 hvdata->Close();
-
-				//std::cout << "FILE does NOT ExiST......... " << std::endl;
-			}*/
 
 	}
 	else{

@@ -17,6 +17,8 @@
 class HVDataClass {
 public:
 
+		unsigned short sSlotNo;
+		unsigned short sChannelNo;
         float sV0Set;
         float sVMon;
         float sI0Set;
@@ -24,7 +26,7 @@ public:
 
 public:
         HVDataClass();
-        HVDataClass(float v0set, float vmon, float i0set, float imon);
+        HVDataClass(unsigned short slotNo, unsigned short channelNo, float v0set, float vmon, float i0set, float imon);
         virtual ~HVDataClass();
 	void Print();
         ClassDef(HVDataClass,1)

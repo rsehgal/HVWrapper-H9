@@ -16,7 +16,9 @@ HVDataClass::~HVDataClass() {
 	// TODO Auto-generated destructor stub
 }
 
-HVDataClass::HVDataClass(float v0set, float vmon, float i0set, float imon){
+HVDataClass::HVDataClass(unsigned short slotNo, unsigned short channelNo, float v0set, float vmon, float i0set, float imon){
+				sSlotNo = slotNo;
+				sChannelNo = channelNo;
                 sV0Set = v0set;
                 sVMon = vmon;
                 sI0Set = i0set;
@@ -24,7 +26,7 @@ HVDataClass::HVDataClass(float v0set, float vmon, float i0set, float imon){
 }
 
 void HVDataClass::Print(){
-  std::cout << "V0Set : " << sV0Set << " : VMon : " << sVMon <<" : I0Set : " << sI0Set << " : IMon : " << sIMon << std::endl; 
+  std::cout << "Slot No. : " << sSlotNo << " : Channel No. : " << sChannelNo << " : V0Set : " << sV0Set << " : VMon : " << sVMon <<" : I0Set : " << sI0Set << " : IMon : " << sIMon << std::endl;
 }
 
 void Print(PowerSupply *ps){

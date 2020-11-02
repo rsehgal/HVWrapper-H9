@@ -18,7 +18,8 @@ int main(){
 
 	PowerSupply *ps=0;
 	PowerSupply *ps2=0;
-        ULong64_t tStamp;
+    //ULong64_t tStamp;
+	UInt_t tStamp;
 
 	gROOT->Reset();
    	TFile *hvdata;// = (TFile*)gROOT->GetListOfFiles()->FindObject("HVData.root");
@@ -37,9 +38,13 @@ int main(){
 
 	Long64_t nbytes = 0;
        for (Long64_t i=0; i<nentries;i++) {
-	 std::cout << "==================================" << std::endl;
+	 std::cout << "=============Entry  : " << i << " =================" << std::endl;
          nbytes += HVData->GetEntry(i);
-	 Print(ps);
+         std::cout << "..................Time : " << tStamp << ".............." << std::endl;
+         std::cout << "................. HVTop .................." << std::endl;
+         Print(ps);
+         std::cout << "................. HVBottom .................." << std::endl;
+         Print(ps2);
 	}
 
         

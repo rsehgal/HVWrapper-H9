@@ -27,7 +27,8 @@ int main(){
 
 	PowerSupply *psTop = psV.fPsVector[0];
 	PowerSupply *psBottom = psV.fPsVector[1];
-	ULong64_t tStamp = time(0);
+	//ULong64_t tStamp = time(0);
+	UInt_t tStamp = time(0);
 
 
 	std::string outputFileName = "HVData.root";
