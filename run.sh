@@ -1,3 +1,7 @@
 #!/bin/sh
 export CAENHVROOT=`pwd`/CAENHVLIB
-./build/ReadPSUsingConfFile
+currDate=`date +"%d-%m-%Y"`
+filename="HVData-$currDate.root"
+#echo $currDate
+#echo $filename
+./build/ReadPSUsingConfFile $filename

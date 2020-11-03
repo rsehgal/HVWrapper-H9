@@ -14,9 +14,10 @@
 #include <TROOT.h>
 #include <TSystem.h>
 #include <ctime>
-int main(){
-	//gROOT->ProcessLine(".L /home/ismran/Work/geant4/ismran/Loader.C+");
-	//gSystem->Load("libHVDataDict");
+int main(int argc, char *argv[]){
+
+        std::string outputFileName = argv[1];//"HVData.root";
+        std::cout << "OutputFileName :  " << outputFileName << std::endl;
 	std::cout << "============================================" << std::endl;
 	std::vector<std::string> psfileVector;
 	psfileVector.push_back("PowerSupply1.txt");
@@ -29,9 +30,6 @@ int main(){
 	PowerSupply *psBottom = psV.fPsVector[1];
 	//ULong64_t tStamp = time(0);
 	UInt_t tStamp = time(0);
-
-
-	std::string outputFileName = "HVData.root";
 
 	std::ifstream f(outputFileName);
 	if(f.good()){
