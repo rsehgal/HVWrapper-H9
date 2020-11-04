@@ -19,7 +19,9 @@ PowerSupplyConfReader::PowerSupplyConfReader() {
 
 PowerSupplyConfReader::~PowerSupplyConfReader() {
 	// TODO Auto-generated destructor stub
+#ifdef VERBOSE
 	std::cout << "Deleting power supply object from  PowerSupplyConfReader with IP : " << fIpAddress << std::endl;
+#endif
 }
 
 PowerSupplyConfReader::PowerSupplyConfReader(std::string filename){
@@ -27,6 +29,7 @@ PowerSupplyConfReader::PowerSupplyConfReader(std::string filename){
 }
 
 void PowerSupplyConfReader::Print(){
+#ifdef VERBOSE
 	std::cout << "IPAddress : " << fIpAddress << std::endl;
 	for(unsigned short int i = 0 ; i < fNumOfSlots ; i++){
 		std::cout << "Slot Num : " << fSlotVector[i] << " : Num of Channels in Slot : " << fVectOfChannelVector[i].size()
@@ -36,6 +39,7 @@ void PowerSupplyConfReader::Print(){
 		}
 		std::cout << std::endl;
 	}
+#endif
 }
 
 void PowerSupplyConfReader::ReadFile(std::string filename){
@@ -74,7 +78,9 @@ ReadPowerSupplies::ReadPowerSupplies(std::vector<std::string> filenamesVector){
 
 ReadPowerSupplies::~ReadPowerSupplies(){
 		for(unsigned short int i = 0 ; i < fPowerSupplyVector.size() ; i++){
+#ifdef VERBOSE
 			std::cout << "Deleting power supply object from ReadPowerSupplies with IP : " << fPowerSupplyConfVector[i]->fIpAddress << std::endl;
+#endif
 			delete fPowerSupplyVector[i];
 		}
 		fPowerSupplyVector.clear();

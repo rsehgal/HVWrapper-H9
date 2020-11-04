@@ -16,9 +16,11 @@
 #include <ctime>
 int main(int argc, char *argv[]){
 
-        std::string outputFileName = argv[1];//"HVData.root";
-        //std::cout << "OutputFileName :  " << outputFileName << std::endl;
-	std::cout << "============================================" << std::endl;
+    std::string outputFileName = argv[1];//"HVData.root";
+#ifdef VERBOSE
+    std::cout << "OutputFileName :  " << outputFileName << std::endl;
+    std::cout << "============================================" << std::endl;
+#endif
 	std::vector<std::string> psfileVector;
 	psfileVector.push_back("PowerSupply1.txt");
 	psfileVector.push_back("PowerSupply2.txt");
@@ -34,7 +36,9 @@ int main(int argc, char *argv[]){
 	std::ifstream f(outputFileName);
 	if(f.good()){
 		 f.close();
+#ifdef VERBOSE
 		 std::cout << "File exist, hence opening it in Update mode ...." << std::endl;
+#endif
 		 //Open the required ROOT file in append mode
 		 TFile *hvdata = new TFile(outputFileName.c_str(),"UPDATE");
 		 TTree *HVData = (TTree*)hvdata->Get("HVData");
@@ -55,7 +59,9 @@ int main(int argc, char *argv[]){
 	}else{
 		f.close();
 		 //Create a new ROOT file with desired name
+#ifdef VERBOSE
 		std::cout << "File does not exist hence creating a new file........." << std::endl;
+#endif
 		 TFile *hvdata = new TFile(outputFileName.c_str(),"CREATE");
 		 //PowerSupply ps;
 		 TTree *hvDataTree = new TTree("HVData","HVData");

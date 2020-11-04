@@ -36,6 +36,12 @@ set(CMAKE_MODULE_PATH ${CMAKE_MODULE_PATH} ${PROJECT_SOURCE_DIR}/cmake/modules)
 include(MacroUtilities)
 ################################################################################
 
+option(VERBOSE "Enabling some printing on std output" OFF)
+
+if(VERBOSE)
+add_definitions(-DVERBOSE)
+endif(VERBOSE)
+
 # see if we have CCACHE ( to avoid recompilation on branch switches )
 find_program(CCACHE_FOUND ccache)
 if(CCACHE_FOUND)

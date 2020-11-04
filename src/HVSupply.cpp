@@ -115,10 +115,11 @@ void HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
 PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
-
+#ifdef VERBOSE
 	std::ofstream outfile(fIPAddress+".txt",std::ios::app);
+#endif
 	unsigned long int timestamp = 0;
-	outfile << timestamp << ",";
+	//outfile << timestamp << ",";
 	if(IsLoginOk()){
 		PowerSupply *ps = new PowerSupply;
 		for(unsigned short int slotIndex = 0 ; slotIndex < fSlotVector.size(); slotIndex++){
@@ -126,8 +127,9 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector.size() ; channelIndex++){
 				Channel ch(slotIndex,channelIndex,GetV0Set(slotIndex,channelIndex),GetVMon(slotIndex,channelIndex),
 						   GetI0Set(slotIndex,channelIndex),GetIMon(slotIndex,channelIndex));
-
-				//outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
+#ifdef VERBOSE
+				outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
+#endif
 				sl.push_back(ch);
 			}
 			ps->push_back(sl);
@@ -136,19 +138,28 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
 	}
 	else{
+#ifdef VERBOSE
 		outfile << "Login Problem for Power Suppy : " << fIPAddress;
+#endif
 	}
+
+#ifdef VERBOSE
 	outfile << std::endl;
 	outfile.close();
+#endif
 }
 
 HVSupply::~HVSupply() {
 	// TODO Auto-generated destructor stub
 	fRet_init = CAENHV_DeinitSystem(fSysHandle);
 	if(fRet_init != CAENHV_OK){
+#ifdef VERBOSE
 		std::cout << "Problem in Logging out of : " << fIPAddress << std::endl;
+#endif
 	}else{
+#ifdef VERBOSE
 		std::cout << "Successfully Logged out of : " << fIPAddress << std::endl;
+#endif
 	}
 }
 
@@ -159,10 +170,16 @@ void HVSupply::Login(){
 
 	fRet_init =  CAENHV_InitSystem((CAENHV_SYSTEM_TYPE_t)fSysType, fLink, const_cast<char*>(fIPAddress.c_str()),
 								    const_cast<char*>(fUsername.c_str()), const_cast<char*>(fPasswd.c_str()), &fSysHandle);
-	if(fRet_init == CAENHV_OK)
+	if(fRet_init == CAENHV_OK){
+#ifdef VERBOSE
 		std::cout<<"Login Successfull..." << std::endl;
-	else
+#endif
+	}
+	else{
+#ifdef VERBOSE
 		std::cerr << "Login Unsuccessfull. Please check login parameter...." << std::endl;
+#endif
+	}
 }
 
 float HVSupply::GetVMon(int slot, ushort channel){
