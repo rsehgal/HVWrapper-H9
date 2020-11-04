@@ -29,13 +29,13 @@ int main(){
 
 	PowerSupply *ps=new PowerSupply;
 	ps->push_back(s);
-	ps->push_back(s);
-	ps->push_back(s);
+	//ps->push_back(s);
+	//ps->push_back(s);
 
 	PowerSupply *ps2 = new PowerSupply;
 	ps2->push_back(s);
-	ps2->push_back(s);
-	ps2->push_back(s);
+	//ps2->push_back(s);
+	//ps2->push_back(s);
 
 	std::string outputFileName = "HVData.root";
 	//ULong64_t tStamp;

@@ -113,3 +113,6 @@ target_link_libraries(TestWritingVecOfStruct HVSupply ${ROOT_LIBRARIES} HVDataCl
 
 add_executable(TestTreeRead test/TestTreeRead.cpp ) #G__HVDataDict.cxx)
 target_link_libraries(TestTreeRead HVSupply ${ROOT_LIBRARIES} HVDataClass)
+
+add_executable(PlotVmonImon test/PlotVmonImon.cpp ) #G__HVDataDict.cxx)
+target_link_libraries(PlotVmonImon HVSupply ${ROOT_LIBRARIES} HVDataClass)
