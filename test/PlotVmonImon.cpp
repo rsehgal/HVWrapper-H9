@@ -18,6 +18,7 @@
 #include <TApplication.h>
 #include <TCanvas.h>
 #include "PowerSupplyConfReader.h"
+#include "TAxis.h"
 
 int main(int argc, char *argv[]){
 
@@ -120,11 +121,15 @@ int main(int argc, char *argv[]){
     can->cd(1);
     grVmon->SetLineColor(4);
     grVmon->SetMarkerColor(6);
+    grVmon->GetXaxis()->SetTimeDisplay(1);
+    grVmon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
     grVmon->Draw("alp");
 
     can->cd(2);
     grImon->SetLineColor(4);
     grImon->SetMarkerColor(6);
+    grImon->GetXaxis()->SetTimeDisplay(1);
+    grImon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
     grImon->Draw("alp");
 
     fApp->Run();
