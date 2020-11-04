@@ -124,11 +124,15 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 		PowerSupply *ps = new PowerSupply;
 		for(unsigned short int slotIndex = 0 ; slotIndex < fSlotVector.size(); slotIndex++){
 			Slot sl;
-			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector.size() ; channelIndex++){
-				Channel ch(slotIndex,channelIndex,GetV0Set(slotIndex,channelIndex),GetVMon(slotIndex,channelIndex),
-						   GetI0Set(slotIndex,channelIndex),GetIMon(slotIndex,channelIndex));
+			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector[slotIndex].size() ; channelIndex++){
+				Channel ch(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex],
+						   GetV0Set(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]),
+						   GetVMon(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]),
+						   GetI0Set(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]),
+						   GetIMon(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]));
 #ifdef VERBOSE
-				outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
+				outfile << GetVoltage(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]) << ","
+						<< GetCurrent(fSlotVector[slotIndex],fVectOfChannelVector[slotIndex][channelIndex]) << ",";
 #endif
 				sl.push_back(ch);
 			}
