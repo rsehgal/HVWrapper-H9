@@ -63,6 +63,21 @@ void PowerSupplyConfReader::ReadFile(std::string filename){
 		infile.close();
 }
 
+unsigned short int CalculateTotalNumOfChannels(std::vector<PowerSupplyConfReader*> psConfVect ){
+	unsigned short int numOfChannels = 0;
+	for(unsigned short i = 0 ; i < psConfVect.size() ; i++){
+		unsigned short int numOfChannelsInAPs = 0 ;
+		for(unsigned short j = 0 ; j < (psConfVect[i]->fSlotVector).size() ; j++){
+			numOfChannelsInAPs+= (psConfVect[i]->fVectOfChannelVector)[j].size();
+		}
+		numOfChannels += numOfChannelsInAPs;
+	}
+
+	//std::cout << "TotalNum of Channels : " << numOfChannels << std::endl;
+	return numOfChannels;
+
+}
+
 //============ Read Power Supplied class
 
 ReadPowerSupplies::ReadPowerSupplies(std::vector<std::string> filenamesVector){

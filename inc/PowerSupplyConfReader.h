@@ -15,6 +15,7 @@
 
 using namespace caen;
 
+
 class PowerSupplyConfReader {
 public:
 	//std::string fOutputFileName;
@@ -47,5 +48,8 @@ public:
 
 
 };
+
+extern unsigned short int  CalculateTotalNumOfChannels(std::vector<PowerSupplyConfReader*> psConfVect );
+
 
 #endif /* CAEN_HVWRAPPER_H9_INC_POWERSUPPLYCONFREADER_H_ */

@@ -23,6 +23,10 @@ int main(){
 		psV.fPowerSupplyConfVector[i]->Print();
 	}
 
+	std::cout << "=====================================" << std::endl;
+	std::cout << "Total Number of Channel : " << CalculateTotalNumOfChannels(psV.fPowerSupplyConfVector) << std::endl;
+	std::cout << "=====================================" << std::endl;
+
 	/*std::cout << "============================================" << std::endl;
 	std::vector<std::string> psfileVector;
 	psfileVector.push_back("PowerSupply1.txt");
