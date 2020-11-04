@@ -17,7 +17,7 @@
 int main(int argc, char *argv[]){
 
         std::string outputFileName = argv[1];//"HVData.root";
-        std::cout << "OutputFileName :  " << outputFileName << std::endl;
+        //std::cout << "OutputFileName :  " << outputFileName << std::endl;
 	std::cout << "============================================" << std::endl;
 	std::vector<std::string> psfileVector;
 	psfileVector.push_back("PowerSupply1.txt");

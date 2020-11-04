@@ -9,10 +9,19 @@
 #include <vector>
 
 int main(){
-	PowerSupplyConfReader ps("PowerSupply1.txt");
+	/*PowerSupplyConfReader ps("PowerSupply1.txt");
 	ps.Print();
 	ps.ReadFile("PowerSupply2.txt");
-	ps.Print();
+	ps.Print();*/
+
+	std::vector<std::string> psfileVector;
+	psfileVector.push_back("PowerSupply1.txt");
+	psfileVector.push_back("PowerSupply2.txt");
+
+	ReadPowerSupplies psV(psfileVector);
+	for(unsigned short int i = 0 ; i < psV.fPowerSupplyConfVector.size() ; i++){
+		psV.fPowerSupplyConfVector[i]->Print();
+	}
 
 	/*std::cout << "============================================" << std::endl;
 	std::vector<std::string> psfileVector;

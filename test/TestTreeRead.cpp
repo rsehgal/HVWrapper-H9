@@ -13,7 +13,7 @@
 #include <TRint.h>
 #include <ctime>
 #include <iostream>
-int main(){
+int main(int argc, char *argv[]){
 
 
 	PowerSupply *ps=0;
@@ -24,8 +24,8 @@ int main(){
 	gROOT->Reset();
    	TFile *hvdata;// = (TFile*)gROOT->GetListOfFiles()->FindObject("HVData.root");
 	TTree *HVData;
-		std::string outputFileName="HVData.root";
-		hvdata = new TFile(outputFileName.c_str(),"UPDATE");
+		std::string outputFileName=argv[1];//"HVData.root";
+		hvdata = new TFile(outputFileName.c_str(),"READ");
                 HVData = (TTree*)hvdata->Get("HVData");
 		// Set branch addresses.
 		//PowerSupply *hvTop=0;

@@ -120,7 +120,7 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 	unsigned long int timestamp = 0;
 	outfile << timestamp << ",";
 	if(IsLoginOk()){
-		PowerSupply ps;
+		PowerSupply *ps = new PowerSupply;
 		for(unsigned short int slotIndex = 0 ; slotIndex < fSlotVector.size(); slotIndex++){
 			Slot sl;
 			for(unsigned short int channelIndex = 0 ; channelIndex < fVectOfChannelVector.size() ; channelIndex++){
@@ -130,9 +130,9 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 				//outfile << GetVoltage(slotIndex,channelIndex) << "," << GetCurrent(slotIndex,channelIndex) << ",";
 				sl.push_back(ch);
 			}
-			ps.push_back(sl);
+			ps->push_back(sl);
 		}
-		return &ps;
+		return ps;
 
 	}
 	else{
