@@ -115,7 +115,9 @@ int main(int argc, char *argv[]){
 
     TGraph *grVmon = new TGraph(tStampVec.size(),&tStampVec[0],&vMonVec[0]);
     TGraph *grImon = new TGraph(tStampVec.size(),&tStampVec[0],&iMonVec[0]);
+    grVmon->SetTitle("VMon");
     grVmon->SetMarkerStyle(8);
+    grImon->SetTitle("IMon");
     grImon->SetMarkerStyle(8);
 
     can->cd(1);
@@ -123,6 +125,7 @@ int main(int argc, char *argv[]){
     grVmon->SetMarkerColor(6);
     grVmon->GetXaxis()->SetTimeDisplay(1);
     grVmon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+    //grVmon->GetXaxis()->LabelsOption("v");
     grVmon->Draw("alp");
 
     can->cd(2);
