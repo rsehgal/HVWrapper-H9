@@ -37,10 +37,16 @@ include(MacroUtilities)
 ################################################################################
 
 option(VERBOSE "Enabling some printing on std output" OFF)
+option(EMULATOR_MODE "Switch Emulator Mode ON/OFF" OFF)
 
 if(VERBOSE)
 add_definitions(-DVERBOSE)
 endif(VERBOSE)
+
+if(EMULATOR_MODE)
+add_definitions(-DEMULATOR_MODE)
+endif(EMULATOR_MODE)
+
 
 # see if we have CCACHE ( to avoid recompilation on branch switches )
 find_program(CCACHE_FOUND ccache)
@@ -116,3 +122,6 @@ target_link_libraries(TestTreeRead HVSupply ${ROOT_LIBRARIES} HVDataClass)
 
 add_executable(PlotVmonImon test/PlotVmonImon.cpp ) #G__HVDataDict.cxx)
 target_link_libraries(PlotVmonImon HVSupply ${ROOT_LIBRARIES} HVDataClass)
+
+add_executable(TestEmulator test/TestEmulator.cpp src/HVSupply.cpp) #G__HVDataDict.cxx)
+target_link_libraries(TestEmulator HVSupply ${ROOT_LIBRARIES} HVDataClass)

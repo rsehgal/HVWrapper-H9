@@ -16,7 +16,15 @@
 
 class TTree;
 
+extern CAENHVRESULT  CAENHV_GetChParam(int handle, ushort slot, 
+ 	const char *ParName, ushort ChNum, const ushort *ChList, void *ParValList);
+
 namespace caen {
+
+namespace emulator{
+	extern CAENHVRESULT  CAENHV_GetChParam(int handle, ushort slot, 
+ 	const char *ParName, ushort ChNum, const ushort *ChList, void *ParValList);
+}
 
 class HVSupply {
 	std::string fName;
@@ -100,6 +108,7 @@ public:
 	void HVMonFullStabGap(){}
 
 	PowerSupply* ReadVoltageAndCurrentOfAllChannels();
+	void Debug();
 
 
 };

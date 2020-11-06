@@ -9,11 +9,43 @@
 #include <iostream>
 #include <fstream>
 #include "HVDataClass.h"
+#include <string>
 //#include <TTree.h>
 //#include <TH1F.h>
 //#include <TFile.h>
 
+/*CAENHVRESULT  CAENHV_GetChParam(int handle, ushort slot, 
+ 	const char *ParName, ushort ChNum, const ushort *ChList, float *ParValList){
+ 		float val;
+		if(std::string(ParName).compare(0,1,"V")==0){
+			val = (rand() % (12300 - 11000 + 1)) + 11000; 
+		}
+		if(std::string(ParName).compare(0,1,"I")==0){
+			val = (rand() % (200 - 100 + 1)) + 100;	
+		}
+
+		ParValList[0]=val;
+		return CAENHV_OK;
+ 	}
+*/
 namespace caen {
+
+namespace emulator{
+	CAENHVRESULT  CAENHV_GetChParam(int handle, ushort slot, 
+ 	const char *ParName, ushort ChNum, const ushort *ChList, float *ParValList){
+ 		float val;
+		if(std::string(ParName).compare(0,1,"V")==0){
+			val = (rand() % (12300 - 11000 + 1)) + 11000; 
+		}
+		if(std::string(ParName).compare(0,1,"I")==0){
+			val = (rand() % (200 - 100 + 1)) + 100;	
+		}
+
+		ParValList[0]=val;
+		return CAENHV_OK;
+ 	}
+}
+
 
 HVSupply::HVSupply(){
 
@@ -61,10 +93,23 @@ HVSupply::HVSupply(std::string ipaddress, std::vector<unsigned short> slotVector
 
 	fSlotVector = slotVector;
 	fVectOfChannelVector = vectOfChannelVector;
+#ifdef VERBOSE
+	Debug();
+#endif
 	Login();
 
 }
 
+void HVSupply::Debug(){
+	std::cout << "================= Power Supply : " << fIPAddress << "================" << std::endl;
+	for(unsigned short int i = 0 ; i < fSlotVector.size() ; i++){
+		std::cout << "Slot No. :  " << fSlotVector[i] << " : Channel Nos. : ";
+		for(unsigned short int j=0 ; j < fVectOfChannelVector[i].size() ; j++){
+			std::cout <<  fVectOfChannelVector[i][j] << " , ";
+		}
+		std::cout << std::endl;
+	}
+}
 
 HVSupply::HVSupply(std::string outputfileName,std::string ipaddress, std::vector<unsigned short> slotVector, std::vector<std::vector<unsigned short>> vectOfChannelVector,
 			 int sysType, int link, std::string username, std::string passwd ){
@@ -155,7 +200,12 @@ PowerSupply* HVSupply::ReadVoltageAndCurrentOfAllChannels(){
 
 HVSupply::~HVSupply() {
 	// TODO Auto-generated destructor stub
+#ifdef EMULATOR_MODE
+	fRet_init = CAENHV_OK;
+#else
 	fRet_init = CAENHV_DeinitSystem(fSysHandle);
+#endif
+
 	if(fRet_init != CAENHV_OK){
 #ifdef VERBOSE
 		std::cout << "Problem in Logging out of : " << fIPAddress << std::endl;
@@ -168,6 +218,10 @@ HVSupply::~HVSupply() {
 }
 
 void HVSupply::Login(){
+
+#ifdef EMULATOR_MODE
+	fRet_init = CAENHV_OK;
+#else
 
 	//TODO : if already logged in then don't login again,
 	//Take care of semaphores
@@ -184,12 +238,18 @@ void HVSupply::Login(){
 		std::cerr << "Login Unsuccessfull. Please check login parameter...." << std::endl;
 #endif
 	}
+
+#endif
 }
 
 float HVSupply::GetVMon(int slot, ushort channel){
     param[0]=0;
     //float par[1]={0};
+#ifdef EMULATOR_MODE
+    fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "VMon", 1, &channel, param);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "VMon", 1, &channel, param);
+#endif
 	if (fRet==CAENHV_OK) {
 	   fVMon = param[0];
 	}
@@ -199,73 +259,99 @@ float HVSupply::GetVMon(int slot, ushort channel){
 
 float HVSupply::GetIMon(int slot, ushort channel){
 	param[0]=0;
+#ifdef EMULATOR_MODE
+	fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "IMon", 1, &channel, param);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "IMon", 1, &channel, param);
+#endif
 	if (fRet==CAENHV_OK) {
 	   fIMon = param[0];
 	}
-
 	return fIMon;
 }
 
 float HVSupply::GetV0Set(int slot, ushort channel){
     param[0]=0;
+#ifdef EMULATOR_MODE
+    fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "V0Set", 1, &channel, param);
+#else
     //float par[1]={0};
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "V0Set", 1, &channel, param);
+#endif
 	if (fRet==CAENHV_OK) {
 	   fVMon = param[0];
 	}
-
 	return fVMon;
 }
 
 float HVSupply::GetI0Set(int slot, ushort channel){
 	param[0]=0;
+#ifdef EMULATOR_MODE
+	fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "I0Set", 1, &channel, param);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "I0Set", 1, &channel, param);
+#endif
+
 	if (fRet==CAENHV_OK) {
 	   fIMon = param[0];
 	}
-
 	return fIMon;
 }
 
 float HVSupply::GetVoltage(int slot, ushort channel){
     param[0]=0;
+#ifdef EMULATOR_MODE
+    fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "VMon", 1, &channel, param);
+#else
     //float par[1]={0};
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "VMon", 1, &channel, param);
+#endif
+
 	if (fRet==CAENHV_OK) {
 	   fVMon = param[0];
 	}
-
 	return fVMon;
 }
 
 float HVSupply::GetCurrent(int slot, ushort channel){
 	param[0]=0;
+#ifdef EMULATOR_MODE
+	fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "IMon", 1, &channel, param);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "IMon", 1, &channel, param);
+#endif
+
 	if (fRet==CAENHV_OK) {
 	   fIMon = param[0];
 	}
-
 	return fIMon;
 }
 
 int HVSupply::GetPowerStatus(int slot, ushort channel){
 	param2[0]=0;
+#ifdef EMULATOR_MODE
+	fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "Pw", 1, &channel, param2);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "Pw", 1, &channel, param2);
+#endif
+
 	if (fRet==CAENHV_OK) {
 	   fPower = param2[0];
 	}
-
 	return fPower;
 }
 
 int HVSupply::GetSystemStatus(int slot, ushort channel){
 	param2[0]=0;
+#ifdef EMULATOR_MODE
+	fRet = emulator::CAENHV_GetChParam(fSysHandle, slot, "Status", 1, &channel, param2);
+#else
 	fRet = CAENHV_GetChParam(fSysHandle, slot, "Status", 1, &channel, param2);
+#endif
+
 	if (fRet==CAENHV_OK) {
 	   fSystemStatus = param2[0];
 	}
-
 	return fSystemStatus;
 }
 
