@@ -14,7 +14,29 @@
 #include <TROOT.h>
 #include <TSystem.h>
 #include <ctime>
+#include <csignal>
+#include <unistd.h>
+
+TFile *hvdata;
+TTree *HVData;
+TTree *hvDataTree;
+
+void signalHandler( int signum ) {
+   std::cout << "Interrupt signal (" << signum << ") received.\n";
+   std::cout << "Saving data to file and closing...." << std::endl;
+
+   // cleanup and close up stuff here
+   hvDataTree->Write();
+   hvdata->Close();
+   // terminate program
+   exit(signum);
+}
+
 int main(int argc, char *argv[]){
+
+	// register signal SIGINT and signal handler
+    signal(SIGINT, signalHandler);
+
 
     std::string outputFileName = argv[1];//"HVData.root";
 #ifdef VERBOSE
@@ -33,46 +55,34 @@ int main(int argc, char *argv[]){
 	//ULong64_t tStamp = time(0);
 	UInt_t tStamp = time(0);
 
-	std::ifstream f(outputFileName);
-	if(f.good()){
-		 f.close();
-#ifdef VERBOSE
-		 std::cout << "File exist, hence opening it in Update mode ...." << std::endl;
-#endif
-		 //Open the required ROOT file in append mode
-		 TFile *hvdata = new TFile(outputFileName.c_str(),"UPDATE");
-		 TTree *HVData = (TTree*)hvdata->Get("HVData");
-		 //Declaration of leaves types
-		 //vector<vector<HVDataClass> > HVTop;
-		 //vector<vector<HVDataClass> > HVBottom;
-		 //UInt_t          tStamp;
-
-		 // Set branch addresses.
-		 HVData->SetBranchAddress("HVTop",&psTop);
-		 HVData->SetBranchAddress("HVBottom",&psBottom);
-		 HVData->SetBranchAddress("TimeStamp",&tStamp);
-
-		 HVData->Fill();
-		 HVData->Write();
-		 hvdata->Close();
-		//std::cout << "FILE ExIST>..........." << std::endl;
-	}else{
-		f.close();
 		 //Create a new ROOT file with desired name
+	std::cout << "Starting recording values from Power Supplies..." << std::endl;
+	std::cout << "Press Ctrl+c to stop the execution and writing data to file" << std::endl;
 #ifdef VERBOSE
 		std::cout << "File does not exist hence creating a new file........." << std::endl;
 #endif
-		 TFile *hvdata = new TFile(outputFileName.c_str(),"CREATE");
+		 //TFile *
+		 hvdata = new TFile(outputFileName.c_str(),"RECREATE");
 		 //PowerSupply ps;
-		 TTree *hvDataTree = new TTree("HVData","HVData");
+		 //TTree *
+		 hvDataTree = new TTree("HVData","HVData");
 		 hvDataTree->Branch("TimeStamp", &tStamp, "tStamp/i");
 		 hvDataTree->Branch("HVTop","PowerSupply", &psTop);
 		 hvDataTree->Branch("HVBottom","PowerSupply", &psBottom);
+		 while(1){
+			 tStamp = time(0);
+		 	 psV.ReadVoltageAndCurrentOfAllPowerSupplies();
+#ifdef VERBOSE
+		 	 std::cout << "Data Read successfully........ Press Ctrl+c to stop the execution" << std::endl;
+#endif
+		 	 hvDataTree->Fill();
+		 	 sleep(5);
+		 }
 
 		 hvDataTree->Fill();
 		 hvDataTree->Write();
 		 hvdata->Close();
-	}
+
 
 	return 0;
 
