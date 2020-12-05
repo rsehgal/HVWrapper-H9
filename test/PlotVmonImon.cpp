@@ -63,11 +63,13 @@ int main(int argc, char *argv[]){
     	xStampVec.push_back(count);
     	 //std::cout << "=============Entry  : " << i << " =================" << std::endl;
          nbytes += HVData->GetEntry(i);
+	 /*
          std::cout << "..................Time : " << tStamp << ".............." << std::endl;
          std::cout << "................. HVTop .................." << std::endl;
          Print(hvTop);
          std::cout << "................. HVBottom .................." << std::endl;
          Print(hvBottom);
+	 */
 
          tStampVec.push_back(tStamp);
 
@@ -86,7 +88,7 @@ int main(int argc, char *argv[]){
         	 if((conf->fSlotVector)[i] == slotIndex){
         		 for(unsigned short int j = 0; j < (conf->fVectOfChannelVector)[i].size() ; j++){
         			 if((conf->fVectOfChannelVector)[i][j] == channelIndex){
-        				 vMonVec.push_back(ps[i][i].sVMon);
+        				 vMonVec.push_back(ps[i][j].sVMon);
         				 iMonVec.push_back(ps[i][j].sIMon);
         			 }
         		 }
@@ -112,9 +114,13 @@ int main(int argc, char *argv[]){
     for(unsigned short i = 0 ; i < tStampVec.size() ; i++){
     	std::cout << "TStamp : " << tStampVec[i] <<" : VMon : " << vMonVec[i] << " : IMon : " << iMonVec[i] << std::endl;
     }
-
+#ifdef USE_TIME_ON_AXIS
     TGraph *grVmon = new TGraph(tStampVec.size(),&tStampVec[0],&vMonVec[0]);
     TGraph *grImon = new TGraph(tStampVec.size(),&tStampVec[0],&iMonVec[0]);
+#else
+    TGraph *grVmon = new TGraph(xStampVec.size(),&xStampVec[0],&vMonVec[0]);
+    TGraph *grImon = new TGraph(xStampVec.size(),&xStampVec[0],&iMonVec[0]);
+#endif
     grVmon->SetTitle("VMon");
     grVmon->SetMarkerStyle(8);
     grImon->SetTitle("IMon");
@@ -123,16 +129,20 @@ int main(int argc, char *argv[]){
     can->cd(1);
     grVmon->SetLineColor(4);
     grVmon->SetMarkerColor(6);
+#ifdef USE_TIME_ON_AXIS
     grVmon->GetXaxis()->SetTimeDisplay(1);
     grVmon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+#endif
     //grVmon->GetXaxis()->LabelsOption("v");
     grVmon->Draw("alp");
 
     can->cd(2);
     grImon->SetLineColor(4);
     grImon->SetMarkerColor(6);
+#ifdef USE_TIME_ON_AXIS    
     grImon->GetXaxis()->SetTimeDisplay(1);
     grImon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+#endif
     grImon->Draw("alp");
 
     fApp->Run();

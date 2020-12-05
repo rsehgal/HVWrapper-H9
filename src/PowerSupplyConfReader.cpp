@@ -102,8 +102,11 @@ ReadPowerSupplies::~ReadPowerSupplies(){
 }
 
 void ReadPowerSupplies::ReadVoltageAndCurrentOfAllPowerSupplies(){
+	//std::cout << "--------- Reading ReadVoltageAndCurrentOfAll Power Supplies ----------" << std::endl;
 	fTStamp = std::time(0);
+	fPsVector.clear();
 	for(unsigned short int i = 0 ; i < fPowerSupplyVector.size() ; i++){
 		fPsVector.push_back(fPowerSupplyVector[i]->ReadVoltageAndCurrentOfAllChannels());
 	}
+	//std::cout << "Size of fPsVector : " << fPsVector.size() << std::endl;
 }

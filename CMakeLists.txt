@@ -38,10 +38,15 @@ include(MacroUtilities)
 
 option(VERBOSE "Enabling some printing on std output" OFF)
 option(EMULATOR_MODE "Switch Emulator Mode ON/OFF" OFF)
+option(USE_TIME_ON_AXIS "Use time on X axis" ON)
 
 if(VERBOSE)
 add_definitions(-DVERBOSE)
 endif(VERBOSE)
+
+if(USE_TIME_ON_AXIS)
+add_definitions(-DUSE_TIME_ON_AXIS)
+endif(USE_TIME_ON_AXIS)
 
 if(EMULATOR_MODE)
 add_definitions(-DEMULATOR_MODE)

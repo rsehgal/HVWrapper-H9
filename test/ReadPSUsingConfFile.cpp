@@ -72,11 +72,21 @@ int main(int argc, char *argv[]){
 		 while(1){
 			 tStamp = time(0);
 		 	 psV.ReadVoltageAndCurrentOfAllPowerSupplies();
+			 /*
+			 // COUTS for debugging
+		 	 std::cout << "--------------------------------------------------" << std::endl;
+		 	 std::cout << "---------Top---------" << std::endl;
+		 	 Print(psV.fPsVector[0]);
+		 	 std::cout << "---------Bottom---------" << std::endl;
+		 	 Print(psV.fPsVector[1]);
+			 */
+		 	 psTop = psV.fPsVector[0];
+		 	 psBottom = psV.fPsVector[1];
 #ifdef VERBOSE
 		 	 std::cout << "Data Read successfully........ Press Ctrl+c to stop the execution" << std::endl;
 #endif
 		 	 hvDataTree->Fill();
-		 	 sleep(5);
+		 	 sleep(2);
 		 }
 
 		 hvDataTree->Fill();
