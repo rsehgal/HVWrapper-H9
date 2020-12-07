@@ -74,6 +74,10 @@ find_package(ROOT REQUIRED)
 include_directories(${ROOT_INCLUDE_DIR})
 #include(${ROOT_USE_FILE})
 
+file(GLOB CONF_FILES ${PROJECT_SOURCE_DIR}/conf_files/*)
+message(STATUS ${CONF_FILES})
+file(COPY ${CONF_FILES} DESTINATION ${CMAKE_BINARY_DIR})
+
 #root_generate_dictionary(G__HVDataDict ../inc/HVDataClass.h LINKDEF ../inc/HVDataLinkDef.h)
 #add_library(HVDataDict SHARED ../src/HVDataClass.cpp ../inc/HVDataClass.h G__HVDataDict.cxx)
 #target_include_directories(HVDataDict PUBLIC "${CMAKE_CURRENT_SOURCE_DIR}/inc")
