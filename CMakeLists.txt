@@ -132,5 +132,8 @@ target_link_libraries(TestTreeRead HVSupply ${ROOT_LIBRARIES} HVDataClass)
 add_executable(PlotVmonImon test/PlotVmonImon.cpp ) #G__HVDataDict.cxx)
 target_link_libraries(PlotVmonImon HVSupply ${ROOT_LIBRARIES} HVDataClass)
 
+add_executable(PlotVmonImon_Roni test/PlotVmonImon_Roni.cpp ) #G__HVDataDict.cxx)
+target_link_libraries(PlotVmonImon_Roni HVSupply ${ROOT_LIBRARIES} HVDataClass)
+
 add_executable(TestEmulator test/TestEmulator.cpp src/HVSupply.cpp) #G__HVDataDict.cxx)
 target_link_libraries(TestEmulator HVSupply ${ROOT_LIBRARIES} HVDataClass)

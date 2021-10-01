@@ -22,6 +22,7 @@
 
 int main(int argc, char *argv[]){
 
+	TFile *fp = new TFile("test.root","RECREATE");
 	PowerSupplyConfReader *hvTopConf = new PowerSupplyConfReader("PowerSupply1.txt");
 	PowerSupplyConfReader *hvBottomConf = new PowerSupplyConfReader("PowerSupply2.txt");
 
@@ -29,7 +30,7 @@ int main(int argc, char *argv[]){
 
 	PowerSupply *hvTop=0;
 	PowerSupply *hvBottom=0;
-    UInt_t tStamp;
+	UInt_t tStamp;
 
 	gROOT->Reset();
 
@@ -116,7 +117,9 @@ int main(int argc, char *argv[]){
     }
 #ifdef USE_TIME_ON_AXIS
     TGraph *grVmon = new TGraph(tStampVec.size(),&tStampVec[0],&vMonVec[0]);
+    grVmon->SetName("vmon");
     TGraph *grImon = new TGraph(tStampVec.size(),&tStampVec[0],&iMonVec[0]);
+    grImon->SetName("imon");
 #else
     TGraph *grVmon = new TGraph(xStampVec.size(),&xStampVec[0],&vMonVec[0]);
     TGraph *grImon = new TGraph(xStampVec.size(),&xStampVec[0],&iMonVec[0]);
@@ -131,7 +134,9 @@ int main(int argc, char *argv[]){
     grVmon->SetMarkerColor(6);
 #ifdef USE_TIME_ON_AXIS
     grVmon->GetXaxis()->SetTimeDisplay(1);
-    grVmon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+    //grVmon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+    //grVmon->GetXaxis()->SetTimeFormat("%H:%M \n %Y %F 1970-01-01 00:00:00");
+    grVmon->GetXaxis()->SetTimeFormat("#splitline{%H:%M}{%d-%b-%y} %F 1970-01-01 00:00:00 ");
 #endif
     //grVmon->GetXaxis()->LabelsOption("v");
     grVmon->Draw("alp");
@@ -141,9 +146,17 @@ int main(int argc, char *argv[]){
     grImon->SetMarkerColor(6);
 #ifdef USE_TIME_ON_AXIS    
     grImon->GetXaxis()->SetTimeDisplay(1);
-    grImon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+    //grImon->GetXaxis()->SetTimeFormat("%Y %H:%M %F 1970-01-01 00:00:00");
+    grImon->GetXaxis()->SetTimeFormat("%a %d");
 #endif
     grImon->Draw("alp");
+
+    fp->cd();
+    grVmon->Write();
+    grImon->Write();
+    //grVmonFar->Write();
+    //grImonFar->Write();
+    fp->Close();
 
     fApp->Run();
 
