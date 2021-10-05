@@ -103,6 +103,8 @@ ${CMAKE_CURRENT_SOURCE_DIR}/inc/HVSupply.h
 ${CMAKE_CURRENT_SOURCE_DIR}/src/HVSupply.cpp 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/PowerSupplyConfReader.cpp 
 ${CMAKE_CURRENT_SOURCE_DIR}/src/HVDataClass.cpp 
+${CMAKE_CURRENT_SOURCE_DIR}/inc/Mapping.h 
+${CMAKE_CURRENT_SOURCE_DIR}/src/Mapping.cpp
 )
 
 target_link_libraries(HVSupply ${ROOT_LIBRARIES} ${CAENHV_LIBRARIES} )
@@ -137,3 +139,6 @@ target_link_libraries(PlotVmonImon_Roni HVSupply ${ROOT_LIBRARIES} HVDataClass)
 
 add_executable(TestEmulator test/TestEmulator.cpp src/HVSupply.cpp) #G__HVDataDict.cxx)
 target_link_libraries(TestEmulator HVSupply ${ROOT_LIBRARIES} HVDataClass)
+
+add_executable(TestMapping test/TestMapping.cpp src/HVSupply.cpp) #G__HVDataDict.cxx)
+target_link_libraries(TestMapping HVSupply ${ROOT_LIBRARIES} HVDataClass)
